@@ -1,11 +1,6 @@
 /*
  *	Trabajo Práctico 1: Cronómetro Binario
  *
- *	INTEGRAN3:
- *	David Lago
- *	Sonia Luna
- *	Alan Magariños
- *	
  *	Al iniciar la simulacion, todos los led deben comenzar apagados.
  *	Cada 1 segundo que transcurra, se deben encender los led
  *	de acuerdo al numero que representan.
@@ -54,7 +49,7 @@ const int DELAY_BOTONES = 100;
 const int DELAY_LEDS = 100;
 const int DELAY_CONTADOR = 1000;
 
-int contador = ZERO_TO_HERO; // INICIALIZA CERO POR DEFINE
+int contador = ZERO_TO_HERO;//INICIALIZA EN CERO POR DEFINE
 
 const int leds_arr[TOTAL_LED] = {4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
 
@@ -64,6 +59,8 @@ unsigned long ultimo_tiempo_contador;
 
 int pausa = 1;
 
+int btn_start_antes = 0;
+int btn_reset_antes = 0;
 
 void setup() {
   Serial.begin(9600);
@@ -104,7 +101,7 @@ void loop() {
     if (millis() - ultimo_tiempo_contador >= DELAY_CONTADOR) {
       if (contador >= MAX_SECONDS) {
         pausa = 1;
-        contador = ZERO_TO_HERO; // ESTABLECE CERO POR DEFINE
+        contador = ZERO_TO_HERO;//ESTABLECE EN CERO POR DEFINE
         tarea_leds(contador, TOTAL_LED);
         return;
       }
@@ -154,9 +151,8 @@ Se implementa el Antirrebote, evaluando la persistencia del estado.*/
 void tarea_check_botones() {
 
   int btn_start_ahora = digitalRead(BUTTON_START);
-  static int btn_start_antes = 0;
   int btn_reset_ahora = digitalRead(BUTTON_RESET);
-  static int btn_reset_antes = 0;
+
 
   if(btn_start_ahora && !btn_start_antes) // ANTIRREBOTE
   {
